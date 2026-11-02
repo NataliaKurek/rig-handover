@@ -48,5 +48,14 @@ export function createApp(config: RigConfig = loadConfig()) {
     );
   });
 
+  // Digest JSON (plan 2b): the same rows the digest page renders. Never reorder or filter here.
+  app.get('/api/digest/:night', (c) => {
+    const night = c.req.param('night');
+    if (!NIGHT.test(night)) return c.json({ error: 'no such night' }, 404);
+    const result = readNight(config.runsDir, night);
+    if (!result) return c.json({ error: 'no such night' }, 404);
+    return c.json({ night, rows: result.rows, badLines: result.badLines });
+  });
+
   return app;
 }
