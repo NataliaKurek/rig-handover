@@ -2,12 +2,12 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { DigestRow, Night, ReadNight, Status } from './types.js';
 
-type Entry = { at: string; job: string; status: Status; owner: string | null; error: string | null };
+export type Entry = { at: string; job: string; status: Status; owner: string | null; error: string | null };
 
 const STATUSES: readonly string[] = ['ok', 'retry', 'fail'];
 
 // Parse at the edge: a line that is not a valid entry is counted, never thrown.
-function parseLine(line: string): Entry | null {
+export function parseLine(line: string): Entry | null {
   let raw: unknown;
   try {
     raw = JSON.parse(line);
